@@ -73,12 +73,14 @@ exports.login = async (req, res) => {
     }
 
     // Generate JWT 
-    const token = JWT.sign({_id: athlete.id}, "secret");
+    const token = JWT.sign({_id: athlete.id}, process.env.JWT_SECRET);
 
     // Send Cookie
     res.cookie('jwt', token, {
         // Limit access to backend only
         httpOnly: true,
+        // Allow cross-origin requests to include cookies.
+        sameSite: 'None',
         // 1 day access
         maxAge: 24 * 60 * 60 * 1000
     })
@@ -96,7 +98,7 @@ exports.checkAuth = async (req, res) => {
         const cookie = req.cookies['jwt'];
 
         // Decode cookie
-        const claims = JWT.verify(cookie, 'secret')
+        const claims = JWT.verify(cookie, process.env.JWT_SECRET);
         if (!claims) {
             res.status(401).json({
                 "status": false,
