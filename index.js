@@ -5,7 +5,10 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+}
 
 // Routes
 const events = require('./routes/event.route');
@@ -34,6 +37,4 @@ app.use('/api/events', events);
 app.use('/api/athletes', athletes);
 
 // --- Start the server --- //
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`)
-})
+app.listen(port);
