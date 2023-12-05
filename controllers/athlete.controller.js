@@ -78,7 +78,7 @@ exports.login = async (req, res) => {
     // Send Cookie
     res.cookie('jwt', token, {
         // Limit access to backend only
-        // httpOnly: true,
+        httpOnly: true,
         // 1 day access
         maxAge: 24 * 60 * 60 * 1000
     })
