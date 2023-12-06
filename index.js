@@ -29,7 +29,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:4200', 'https://vasilismoutz.github.io']
+    origin: ['http://localhost:4200', 'https://vasilismoutz.github.io'],
+    exposedHeaders: ["set-cookie"]
 }));
 
 // Routing
