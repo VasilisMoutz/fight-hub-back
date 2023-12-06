@@ -81,6 +81,7 @@ exports.login = async (req, res) => {
         httpOnly: true,
         // Allow cross-origin requests to include cookies.
         sameSite: 'None',
+        secure: true,
         // 1 day access
         maxAge: 24 * 60 * 60 * 1000
     })
