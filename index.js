@@ -29,7 +29,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:4200', 'https://vasilismoutz.github.io/fight-hub/'],
+    origin: ['http://localhost:4200','https://vasilismoutz.github.io', 'https://vasilismoutz.github.io/fight-hub/'],
     exposedHeaders: ["set-cookie"]
 }));
 
