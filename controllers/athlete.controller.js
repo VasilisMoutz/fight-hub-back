@@ -81,6 +81,7 @@ exports.login = async (req, res) => {
         httpOnly: true,
         // Allow cross-origin requests to include cookies.
         sameSite: 'None',
+        // Ensure cookie is sent only over secure connections
         secure: true,
         // 1 day access
         maxAge: 24 * 60 * 60 * 1000
@@ -120,13 +121,11 @@ exports.checkAuth = async (req, res) => {
             "status": false,
             "data": {"msg": "unauthenticated"}
         })
-    }
-
-    
+    }   
 }
 
 exports.logout = async (req, res) => {
-    res.cookie('jwt', '', {maxAge: 0})
+    res.cookie('jwt', '', { maxAge: 0, httpOnly: true, secure: true, sameSite: 'None'});
     res.status(200).json({
         "status": true,
         "data": {"msg": "Logout success"}
@@ -151,17 +150,15 @@ exports.eventRegister = async (req, res) => {
     const eventId = req.body.id;
 
     console.log('Register to event with id: ', eventId)
-
     
     try {
-
         //--- Authorize User --- //
-
         // Access cookie 
         const cookie = req.cookies['jwt'];
 
         // Decode cookie
-        const claims = JWT.verify(cookie, 'secret')
+        const claims = JWT.verify(cookie, process.env.JWT_SECRET);
+        console.log(claims._id);
         if (!claims) {
             return res.status(401).json({
                 "status": false,
