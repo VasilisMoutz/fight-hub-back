@@ -98,6 +98,7 @@ exports.checkAuth = async (req, res) => {
     try {
         // Access cookie 
         const cookie = req.cookies['jwt'];
+        console.log(cookie);
 
         // Decode cookie
         const claims = JWT.verify(cookie, process.env.JWT_SECRET);
