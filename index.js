@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT;
+let port = process.env.PORT;
 if (port == null || port == "") {
     port = 3000;
 }
