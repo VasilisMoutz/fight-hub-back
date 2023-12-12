@@ -29,7 +29,7 @@ Once you have installed the prerequisites, follow these steps to set up your dev
    npm install
 
 4. **Configure MongoDB Atlas:**
-   You need to set up a MongoDB Atlas cluster and obtain the connection URL
+   You need to set up a [MongoDB Atlas](https://www.mongodb.com/atlas/database) cluster and obtain the connection URL
     - Visit MongoDB Atlas and sign in or create an account.
     - Create a new cluster or use an existing one.
     - In the cluster dashboard, click on "CONNECT" and then choose "Connect your application."
