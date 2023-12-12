@@ -35,6 +35,15 @@ Once you have installed the prerequisites, follow these steps to set up your dev
     - In the cluster dashboard, click on "CONNECT" and then choose "Connect your application."
     - Copy the connection string provided.
    
-6. **Create .env file**
-   Create a new file named .env in the root directory of the project.
+5. **Create .env file**
+   - Create a new file named .env in the root directory of the project.
+   - Open the .env file and add the following lines:
+   
+     ```.env
+     MONGO_URI=YOUR_MONGO_ATLAS_CONNECTION_STRING # Your MongoDB Atlas Connection String
+     PORT=3000 # Your custom port (e.g., 3000)
+     JWT_SECRET=YOUR_CUSTOM_SECRET  #Your custom JWT secret for authentication
+     ```
+   - Save the .env file
+  
 
