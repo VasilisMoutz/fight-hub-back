@@ -28,6 +28,13 @@ Once you have installed the prerequisites, follow these steps to set up your dev
    ```bash
    npm install
 
-4. **Start the development server:**
-   ```bash
-   ng serve
+4. **Configure MongoDB Atlas:**
+   You need to set up a MongoDB Atlas cluster and obtain the connection URL
+    - Visit MongoDB Atlas and sign in or create an account.
+    - Create a new cluster or use an existing one.
+    - In the cluster dashboard, click on "CONNECT" and then choose "Connect your application."
+    - Copy the connection string provided.
+   
+6. **Create .env file**
+   Create a new file named .env in the root directory of the project.
+
