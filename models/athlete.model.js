@@ -7,9 +7,8 @@ let recordSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Event'
     },
-    won: {
-        type: String,
-        enum: ['Gold', 'Silver', 'Bronze', ""]
+    completed: {
+        type: Boolean
     }
 }, {_id: false})
 
@@ -27,6 +26,7 @@ let athleteSchema = new Schema({
             message: 'Email address is not valid',
         },
     },
+    // Not restrictions on password because we are expecting a hashed value
     password: {
         type: String,
         required: [true, 'Password is required field'],
@@ -35,13 +35,13 @@ let athleteSchema = new Schema({
         type: String,
         minlength: 3,
         maxlength: 45,
-        required: true
+        required: [true, 'Name is required field']
     },
     surname: {
         type: String,
         minlength: 3,
         maxlength: 45,
-        required: true
+        required: [true, 'Surname is required field']
     },
     gender: {
         type: String,

@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
+let participantsSchema = new Schema({
+    type: Schema.Types.ObjectId,
+    ref: 'Athlete'
+}, {id: false})
+
 let locationSchema = new Schema({
     city: {
         type: String,
@@ -41,6 +46,9 @@ let eventSchema = new Schema({
         required: [true, 'Date is required field']
     },
     location: locationSchema,
+    participants: {
+        type: [participantsSchema]
+    },
     active: {
         type: Boolean
     }
