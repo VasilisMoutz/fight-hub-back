@@ -13,6 +13,7 @@ if (port == null || port == "") {
 // Routes
 const events = require('./routes/event.route');
 const athletes = require('./routes/athlete.route');
+const promoters = require('./routes/promoter.route');
 
 //  --- Connect to Database --- ///
 mongoose.connect(process.env.MONGO_URI, {dbName: 'fightHubDB'})
@@ -36,6 +37,7 @@ app.use(cors({
 // Routing
 app.use('/api/events', events);
 app.use('/api/athletes', athletes);
+app.use('/api/promoters', promoters);
 
 // --- Start the server --- //
 app.listen(port);

@@ -1,9 +1,20 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
+// Which promoter the event belongs to
+let promotedBySchema = new Schema({
+    promoter: {
+        type: Schema.Types.ObjectId,
+        ref: 'Promoter'
+    }
+}, {id: false})
+
+// Participating Athletes
 let participantsSchema = new Schema({
-    type: Schema.Types.ObjectId,
-    ref: 'Athlete'
+    participant : {
+        type: Schema.Types.ObjectId,
+        ref: 'Athlete'
+    }
 }, {id: false})
 
 let locationSchema = new Schema({
@@ -46,6 +57,7 @@ let eventSchema = new Schema({
         required: [true, 'Date is required field']
     },
     location: locationSchema,
+    promoter: promotedBySchema,
     participants: {
         type: [participantsSchema]
     },

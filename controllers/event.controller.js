@@ -1,6 +1,8 @@
+// Access Mongoose Model
 const Event = require('../models/event.model');
 
 
+// - - - N E W - E V E N T - - - 
 exports.register = async (req, res) => {
 
     // Destructure request 
