@@ -39,6 +39,7 @@ Once you have installed the prerequisites, follow these steps to set up your dev
      MONGO_URI=YOUR_MONGO_ATLAS_CONNECTION_STRING # Your MongoDB Atlas Connection String
      PORT=3000 # Your custom port (e.g., 3000)
      JWT_SECRET=YOUR_CUSTOM_SECRET  #Your custom JWT secret for authentication
+     SALT=10 # Your custom salt rounds
      ```
    - Save the .env file
 
