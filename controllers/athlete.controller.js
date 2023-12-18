@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const { check } = require('express-validator');
 const Athlete = require('../models/athlete.model');
+const Event = require('../models/event.model');
 const JWT = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
@@ -147,28 +147,32 @@ exports.findAll = async (req, res) => {
 
 exports.eventRegister = async (req, res) => {
 
-    const eventId = req.body.id;
+    // string id --> mongoose id
+    const eventId = new mongoose.Types.ObjectId(req.body.id);
 
-    console.log('Register to event with id: ', eventId)
-    
+    // check event existance
     try {
-        //--- Authorize User --- //
-        // Access cookie 
-        const cookie = req.cookies['jwt'];
+        const event = await Event.findById(eventId);
+    } catch (err) {
+        return res.status(401).json({
+            "status": false,
+            "data": {"msg": "Could not find event"}
+        })
+    }
 
-        // Decode cookie
-        const claims = JWT.verify(cookie, process.env.JWT_SECRET);
-        console.log(claims._id);
-        if (!claims) {
-            return res.status(401).json({
-                "status": false,
-                "data": {"msg": "unauthenticated"}
-            })
-        }
+    // check authorization
+    const cookie = req.cookies['jwt'];
+    const claims = JWT.verify(cookie, process.env.JWT_SECRET);
+    if (!claims) {
+        return res.status(401).json({
+            "status": false,
+            "data": {"msg": "unauthenticated"}
+        })
+    }
 
-        // Check if user already registered to event
-        const athleteId = claims._id;
-
+    // Check if user already registered to event
+    const athleteId = new mongoose.Types.ObjectId(claims._id);
+    try {
         const registered = await Athlete.findOne(
         {
             _id: athleteId,
@@ -182,12 +186,39 @@ exports.eventRegister = async (req, res) => {
                 "data": {"msg": "already registered"}
             })
         }
+    } catch (err) {
+        return res.status(400).json({
+            "status": false,
+            "data": {"msg": err}
+        })
+    }
 
-        // Register User to event
-        const result = await Athlete.updateOne(
-            { _id: athleteId },
-            { $push: {comingFights: eventId }}
-        );
+    // Register User to event
+    try {
+        console.log("Attempting registration to Event");
+
+        console.log("athlete: ", athleteId);
+        console.log("Event:", eventId);
+
+        // Push event id to athlete coming fights
+        try {
+            await Athlete.updateOne(
+                { _id: athleteId },
+                { $push: {comingFights: eventId }}
+            );
+        } catch (err) {
+            console.error('Error updating athlete:', err);
+        }
+
+        // Push athlete id to event participants
+        try {
+            await Event.updateOne(
+                { _id: eventId },
+                { $push: {participants: athleteId }}
+            )
+        } catch (err) {
+            console.error('Error updating event:', err);
+        }
 
         console.log('Successful Register to new event');
         return res.status(200).json({status: true, data: {'msg': 'Successful register'}});
@@ -195,7 +226,7 @@ exports.eventRegister = async (req, res) => {
     } catch (err) {
         return res.status(400).json({
             "status": false,
-            "data": err
+            "data": {"msg": "Error. Could not register", err}
         })
     }
 }
